@@ -1,3 +1,3 @@
-export default class Bitkub {
+import Bitkub from './bitkub'
 
-}
+export default Bitkub
