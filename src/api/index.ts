@@ -1,5 +1,6 @@
 import axios from 'axios'
 import api_data from './data'
+import crypto from 'crypto'
 
 const DEFAULT_SERVER_URL = 'https://api.bitkub.com/api/'
 
@@ -63,17 +64,9 @@ export default class API {
   private _build_secure_endpoint_function(data: endPointData) {
     return async (parameters: object): Promise<any> => {
       let builtParameters: any = parameters || {}
-      builtParameters["ts"] = new Date().getTime()
-      console.log(builtParameters)
-      console.log(builtParameters)
-      console.log(builtParameters)
-      console.log(builtParameters)
-      console.log(builtParameters)
-      console.log(builtParameters)
-      console.log(builtParameters)
-      console.log(builtParameters)
-      console.log(builtParameters)
-      const response = await axios.post(this._server_url + data.path, parameters, {
+      builtParameters['ts'] = new Date().getTime()
+      builtParameters['sig'] = this._generate_signature(builtParameters)
+      const response = await axios.post(this._server_url + data.path, builtParameters, {
         headers: {
           accept: 'application/json',
           'content-type': 'application/json',
@@ -89,6 +82,9 @@ export default class API {
    * Generate HMAC signature from json parameters
    */
   private _generate_signature(json: any): string {
-    
+    return crypto
+      .createHmac('sha256', this._credentials.api_secret)
+      .update(JSON.stringify(json))
+      .digest('hex')
   }
 }
