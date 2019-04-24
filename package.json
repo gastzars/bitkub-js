@@ -12,7 +12,8 @@
   "author": "Tanapat Sainak <fallen_things@hotmail.com>",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/gastzars/bitkub-js.git",
+    "doc_url": "https://github.com/gastzars/bitkub-js-docs.git"
   },
   "license": "MIT",
   "engines": {

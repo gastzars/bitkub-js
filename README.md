@@ -29,3 +29,6 @@ client.server_time().then(server_time => {
   console.log(server_time)
 })
 ```
+## Documents
+
+Read more API at the <a href="https://gastzars.github.io/bitkub-js-docs/classes/bitkub.html">documents</a>
