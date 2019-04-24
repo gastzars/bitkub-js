@@ -12,9 +12,9 @@ export default class Bitkub {
    * @param {object} options - An options for Bitkub API authentication
    * @param {string} [options.api_key] - An api key generated from Bitkub
    * @param {string} [options.api_secret] - A api secret generated from Bitkub
-   * @param {string} [options.server_url] - Bitkub API server url
+   * @param {string} [options.server_url] - Bitkub API server url (optional)
    */
-  constructor(options: { api_key: string; api_secret: string; server_url: string }) {
+  constructor(options: { api_key: string; api_secret: string; server_url?: string }) {
     this._api_client = new API(options)
   }
 
@@ -45,7 +45,7 @@ export default class Bitkub {
    * @param {string} [parameters.sym] - A symbol name
    * @param {integer} [parameters.lmt] - No. of limit to query recent trades
    */
-  async market_trades(parameters: object): Promise<any> {
+  async market_trades(parameters: { sym: string; lmt: number }): Promise<any> {
     return this._api_client.market_trades(parameters)
   }
 
@@ -65,7 +65,7 @@ export default class Bitkub {
    * @param {string} [parameters.sym] - A symbol name
    * @param {integer} [parameters.lmt] - No. of limit to query recent trades
    */
-  async market_asks(parameters: object): Promise<any> {
+  async market_asks(parameters: { sym: string; lmt: number }): Promise<any> {
     return this._api_client.market_asks(parameters)
   }
 
@@ -75,7 +75,7 @@ export default class Bitkub {
    * @param {string} [parameters.sym] - A symbol name
    * @param {integer} [parameters.lmt] - No. of limit to query recent trades
    */
-  async market_books(parameters: object): Promise<any> {
+  async market_books(parameters: { sym: string; lmt: number }): Promise<any> {
     return this._api_client.market_books(parameters)
   }
 
@@ -87,7 +87,12 @@ export default class Bitkub {
    * @param {integer} [parameters.frm] - Timestamp of the starting time (from)
    * @param {integer} [parameters.to] - Timestamp of the ending time (to)
    */
-  async market_trading_view(parameters: object): Promise<any> {
+  async market_trading_view(parameters: {
+    sym: string
+    int: number
+    frm: number
+    to: number
+  }): Promise<any> {
     return this._api_client.market_trading_view(parameters)
   }
 
@@ -109,11 +114,16 @@ export default class Bitkub {
    * Create a buy order
    * @param {object} parameters = A query parameters
    * @param {string} [parameters.sym] - A symbol name
-   * @param {float} [parameters.amt] - Amount you want to spend with no trailing zero (e.g 1000.00 is invalid, 1000 is ok)
-   * @param {float} [parameters.rat] - Rate you want for the order with no trailing zero (e.g 1000.00 is invalid, 1000 is ok)
+   * @param {number} [parameters.amt] - Amount you want to spend with no trailing zero (e.g 1000.00 is invalid, 1000 is ok)
+   * @param {number} [parameters.rat] - Rate you want for the order with no trailing zero (e.g 1000.00 is invalid, 1000 is ok)
    * @param {string} [parameters.typ] - Order type: limit or market
    */
-  async market_place_bid(parameters: object): Promise<any> {
+  async market_place_bid(parameters: {
+    sym: string
+    amt: number
+    rat: number
+    typ: string
+  }): Promise<any> {
     return this._api_client.market_place_bid(parameters)
   }
 
@@ -121,11 +131,16 @@ export default class Bitkub {
    * Create a sell order
    * @param {object} parameters = A query parameters
    * @param {string} [parameters.sym - A symbol name
-   * @param {float} [parameters.amt] - Amount you want to spend with no trailing zero (e.g 1000.00 is invalid, 1000 is ok)
-   * @param {float} [parameters.rat] - Rate you want for the order with no trailing zero (e.g 1000.00 is invalid, 1000 is ok)
+   * @param {number} [parameters.amt] - Amount you want to spend with no trailing zero (e.g 1000.00 is invalid, 1000 is ok)
+   * @param {number} [parameters.rat] - Rate you want for the order with no trailing zero (e.g 1000.00 is invalid, 1000 is ok)
    * @param {string} [parameters.typ] - Order type: limit or market
    */
-  async market_place_ask(parameters: object): Promise<any> {
+  async market_place_ask(parameters: {
+    sym: string
+    amt: number
+    rat: number
+    typ: string
+  }): Promise<any> {
     return this._api_client.market_place_ask(parameters)
   }
 
@@ -136,7 +151,7 @@ export default class Bitkub {
    * @param {integer} [parameters.id] - Order id you wish to cancel
    * @param {string} [parameters.sd] - Order side: buy or sell
    */
-  async market_cancel_order(parameters: object): Promise<any> {
+  async market_cancel_order(parameters: { sym: string; id: number; sd: string }): Promise<any> {
     return this._api_client.market_cancel_order(parameters)
   }
 
@@ -145,7 +160,7 @@ export default class Bitkub {
    * @param {object} parameters = A query parameters
    * @param {string} [parameters.sym] - A symbol name
    */
-  async market_my_open_orders(parameters: object): Promise<any> {
+  async market_my_open_orders(parameters: { sym: string }): Promise<any> {
     return this._api_client.market_my_open_orders(parameters)
   }
 
@@ -156,7 +171,11 @@ export default class Bitkub {
    * @param {string} [parameters.p] - Page (optional)
    * @param {string} [parameters.lmt] - Limit (optional)
    */
-  async market_my_order_history(parameters: object): Promise<any> {
+  async market_my_order_history(parameters: {
+    sym: string
+    p?: string
+    lmt?: string
+  }): Promise<any> {
     return this._api_client.market_my_order_history(parameters)
   }
 
@@ -164,10 +183,10 @@ export default class Bitkub {
    * Get information regarding the specified order
    * @param {object} parameters = A query parameters
    * @param {string} [parameters.sym] - A symbol name
-   * @param {integer} [parameters.id] - Order id you wish to cancel
+   * @param {integer} [parameters.id] - Order id
    * @param {string} [parameters.sd] - Order side: buy or sell
    */
-  async market_order_info(parameters: object): Promise<any> {
+  async market_order_info(parameters: { sym: string; id: number; sd: string }): Promise<any> {
     return this._api_client.market_order_info(parameters)
   }
 }

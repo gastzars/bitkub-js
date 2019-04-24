@@ -32,7 +32,7 @@ export default class API {
    * @param {string} options.api_secret - A api secret generated from Bitkub
    * @param {string} options.server_url - Bitkub API server url
    */
-  constructor(options: { api_key: string; api_secret: string; server_url: string }) {
+  constructor(options: { api_key: string; api_secret: string; server_url?: string }) {
     this._credentials = {
       api_key: options.api_key,
       api_secret: options.api_secret
