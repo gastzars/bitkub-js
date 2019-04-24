@@ -51,8 +51,18 @@ export default class API {
    * Build non-secure API endpoint function
    */
   private _build_non_secure_endpoint_function(data: endPointData) {
-    return async (): Promise<any> => {
-      const response = await axios.get(this._server_url + data.path)
+    return async (parameters: object): Promise<any> => {
+      let builtParameters: any = parameters || {}
+      this._build_parameters_validator(data.parameters)(builtParameters)
+      let url_params: string = ''
+      if (Object.keys(builtParameters).length > 0) {
+        let all_params: string[] = []
+        Object.keys(builtParameters).forEach(key => {
+          all_params.push(key + '=' + builtParameters[key])
+        })
+        url_params = '?' + all_params.join('&')
+      }
+      const response = await axios.get(this._server_url + data.path + url_params)
       if (response.status === 200) return response.data
       throw response
     }
@@ -64,6 +74,7 @@ export default class API {
   private _build_secure_endpoint_function(data: endPointData) {
     return async (parameters: object): Promise<any> => {
       let builtParameters: any = parameters || {}
+      this._build_parameters_validator(data.parameters)(builtParameters)
       builtParameters['ts'] = new Date().getTime()
       builtParameters['sig'] = this._generate_signature(builtParameters)
       const response = await axios.post(this._server_url + data.path, builtParameters, {
@@ -86,5 +97,23 @@ export default class API {
       .createHmac('sha256', this._credentials.api_secret)
       .update(JSON.stringify(json))
       .digest('hex')
+  }
+
+  /**
+   * Build parameter validator function
+   */
+  private _build_parameters_validator(parameters: { [key: string]: boolean }) {
+    return (params: object): void => {
+      let missing_parameters: string[] = []
+      const param_keys = Object.keys(params)
+      Object.keys(parameters).forEach(key => {
+        if (parameters[key] === true && param_keys.indexOf(key) === -1) {
+          missing_parameters.push(':' + key)
+        }
+      })
+      if (missing_parameters.length > 0) {
+        throw 'Missing parameters (' + missing_parameters.join(', ') + ')'
+      }
+    }
   }
 }
