@@ -28,14 +28,14 @@ export default class Bitkub {
   /**
    * List all available symbols
    */
-  async market_symbols(): Promise<any> {
+  async symbols(): Promise<any> {
     return this._api_client.market_symbols()
   }
 
   /**
    * Get ticker information
    */
-  async market_ticker(): Promise<any> {
+  async ticker(): Promise<any> {
     return this._api_client.market_ticker()
   }
 
@@ -45,7 +45,7 @@ export default class Bitkub {
    * @param {string} [parameters.sym] - A symbol name
    * @param {integer} [parameters.lmt] - No. of limit to query recent trades
    */
-  async market_trades(parameters: { sym: string; lmt: number }): Promise<any> {
+  async trades(parameters: { sym: string; lmt: number }): Promise<any> {
     return this._api_client.market_trades(parameters)
   }
 
@@ -55,7 +55,7 @@ export default class Bitkub {
    * @param {string} [parameters.sym] - A symbol name
    * @param {integer} [parameters.lmt] - No. of limit to query recent trades
    */
-  async market_bids(parameters: object): Promise<any> {
+  async bids(parameters: object): Promise<any> {
     return this._api_client.market_bids(parameters)
   }
 
@@ -65,7 +65,7 @@ export default class Bitkub {
    * @param {string} [parameters.sym] - A symbol name
    * @param {integer} [parameters.lmt] - No. of limit to query recent trades
    */
-  async market_asks(parameters: { sym: string; lmt: number }): Promise<any> {
+  async asks(parameters: { sym: string; lmt: number }): Promise<any> {
     return this._api_client.market_asks(parameters)
   }
 
@@ -75,7 +75,7 @@ export default class Bitkub {
    * @param {string} [parameters.sym] - A symbol name
    * @param {integer} [parameters.lmt] - No. of limit to query recent trades
    */
-  async market_books(parameters: { sym: string; lmt: number }): Promise<any> {
+  async books(parameters: { sym: string; lmt: number }): Promise<any> {
     return this._api_client.market_books(parameters)
   }
 
@@ -87,7 +87,7 @@ export default class Bitkub {
    * @param {integer} [parameters.frm] - Timestamp of the starting time (from)
    * @param {integer} [parameters.to] - Timestamp of the ending time (to)
    */
-  async market_trading_view(parameters: {
+  async trading_view(parameters: {
     sym: string
     int: number
     frm: number
@@ -99,14 +99,14 @@ export default class Bitkub {
   /**
    * Get user wallet info
    */
-  async market_wallet(): Promise<any> {
+  async wallet(): Promise<any> {
     return this._api_client.market_wallet()
   }
 
   /**
    * Get balances info: this includes both available and reserved balances
    */
-  async market_balances(): Promise<any> {
+  async balances(): Promise<any> {
     return this._api_client.market_balances()
   }
 
@@ -118,7 +118,7 @@ export default class Bitkub {
    * @param {number} [parameters.rat] - Rate you want for the order with no trailing zero (e.g 1000.00 is invalid, 1000 is ok)
    * @param {string} [parameters.typ] - Order type: limit or market
    */
-  async market_place_bid(parameters: {
+  async place_bid(parameters: {
     sym: string
     amt: number
     rat: number
@@ -135,7 +135,7 @@ export default class Bitkub {
    * @param {number} [parameters.rat] - Rate you want for the order with no trailing zero (e.g 1000.00 is invalid, 1000 is ok)
    * @param {string} [parameters.typ] - Order type: limit or market
    */
-  async market_place_ask(parameters: {
+  async place_ask(parameters: {
     sym: string
     amt: number
     rat: number
@@ -151,7 +151,7 @@ export default class Bitkub {
    * @param {integer} [parameters.id] - Order id you wish to cancel
    * @param {string} [parameters.sd] - Order side: buy or sell
    */
-  async market_cancel_order(parameters: { sym: string; id: number; sd: string }): Promise<any> {
+  async cancel_order(parameters: { sym: string; id: number; sd: string }): Promise<any> {
     return this._api_client.market_cancel_order(parameters)
   }
 
@@ -160,7 +160,7 @@ export default class Bitkub {
    * @param {object} parameters = A query parameters
    * @param {string} [parameters.sym] - A symbol name
    */
-  async market_my_open_orders(parameters: { sym: string }): Promise<any> {
+  async my_open_orders(parameters: { sym: string }): Promise<any> {
     return this._api_client.market_my_open_orders(parameters)
   }
 
@@ -171,7 +171,7 @@ export default class Bitkub {
    * @param {string} [parameters.p] - Page (optional)
    * @param {string} [parameters.lmt] - Limit (optional)
    */
-  async market_my_order_history(parameters: {
+  async my_order_history(parameters: {
     sym: string
     p?: string
     lmt?: string
@@ -186,7 +186,7 @@ export default class Bitkub {
    * @param {integer} [parameters.id] - Order id
    * @param {string} [parameters.sd] - Order side: buy or sell
    */
-  async market_order_info(parameters: { sym: string; id: number; sd: string }): Promise<any> {
+  async order_info(parameters: { sym: string; id: number; sd: string }): Promise<any> {
     return this._api_client.market_order_info(parameters)
   }
 }
